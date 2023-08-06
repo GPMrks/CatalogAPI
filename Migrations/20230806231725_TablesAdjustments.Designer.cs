@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductsAPI.Context;
@@ -11,9 +12,11 @@ using ProductsAPI.Context;
 namespace ProductsAPI.Migrations
 {
     [DbContext(typeof(ProductsApiContext))]
-    partial class ProductsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230806231725_TablesAdjustments")]
+    partial class TablesAdjustments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

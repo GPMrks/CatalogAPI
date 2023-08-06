@@ -9,6 +9,8 @@ public class Product
     public string? ImageUrl { get; set; }
     public float Stock { get; set; }
     public DateTime RegisterDate { get; set; }
+    public int CategoryId { get; set; }
+    public Category? Category { get; set; }
 
     public Product()
     {

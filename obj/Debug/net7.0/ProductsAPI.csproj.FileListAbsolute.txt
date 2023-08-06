@@ -31,3 +31,13 @@
 /home/gpmrks/ProductsAPI/obj/Debug/net7.0/ProductsAPI.pdb
 /home/gpmrks/ProductsAPI/obj/Debug/net7.0/ProductsAPI.genruntimeconfig.cache
 /home/gpmrks/ProductsAPI/obj/Debug/net7.0/ref/ProductsAPI.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Humanizer.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Mono.TextTemplating.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Npgsql.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/gpmrks/ProductsAPI/bin/Debug/net7.0/System.CodeDom.dll

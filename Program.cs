@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using ProductsAPI.Context;
-using ProductsAPI.Services;
-using ProductsAPI.Services.Impl;
+using CatalogAPI.Context;
+using CatalogAPI.Services;
+using CatalogAPI.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,11 +29,11 @@ builder.Services.AddSwaggerGen(options =>
             Email = "guilhermepereiramarques@hotmail.com",
             Url = new Uri("https://linkedin.com/in/guilherme-p-marques"),
         },
-        License = new OpenApiLicense
-        {
-            Name = "Use under LICX",
-            Url = new Uri("https://example.com/license"),
-        }
+        // License = new OpenApiLicense
+        // {
+        //     Name = "Use under LICX",
+        //     Url = new Uri("https://example.com/license"),
+        // }
     });
 });
 

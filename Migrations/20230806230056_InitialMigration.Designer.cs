@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using ProductsAPI.Context;
+using CatalogAPI.Context;
 
 #nullable disable
 
-namespace ProductsAPI.Migrations
+namespace CatalogAPI.Migrations
 {
     [DbContext(typeof(CatalogApiContext))]
     [Migration("20230806230056_InitialMigration")]

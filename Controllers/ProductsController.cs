@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CatalogAPI.Entities;
+using CatalogAPI.Exceptions;
+using CatalogAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProductsAPI.Entities;
-using ProductsAPI.Exceptions;
-using ProductsAPI.Services;
 
-namespace ProductsAPI.Controllers;
+namespace CatalogAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

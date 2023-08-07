@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ProductsAPI.Migrations
+namespace CatalogAPI.Migrations
 {
     /// <inheritdoc />
     public partial class TablesAdjustments : Migration

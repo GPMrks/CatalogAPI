@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ProductsAPI.Entities;
+using CatalogAPI.Entities;
 
-namespace ProductsAPI.Context;
+namespace CatalogAPI.Context;
 
 public class CatalogApiContext : DbContext
 {

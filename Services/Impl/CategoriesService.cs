@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using ProductsAPI.Context;
-using ProductsAPI.Entities;
-using ProductsAPI.Exceptions;
+using CatalogAPI.Context;
+using CatalogAPI.Entities;
+using CatalogAPI.Exceptions;
 
-namespace ProductsAPI.Services.Impl;
+namespace CatalogAPI.Services.Impl;
 
 public class CategoriesService : ICategoriesService
 {

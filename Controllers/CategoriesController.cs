@@ -1,9 +1,9 @@
+using CatalogAPI.Entities;
+using CatalogAPI.Exceptions;
+using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using ProductsAPI.Entities;
-using ProductsAPI.Exceptions;
-using ProductsAPI.Services;
 
-namespace ProductsAPI.Controllers;
+namespace CatalogAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

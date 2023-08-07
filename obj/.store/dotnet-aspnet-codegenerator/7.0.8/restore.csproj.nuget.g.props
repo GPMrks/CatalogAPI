@@ -4,15 +4,15 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/home/gpmrks/ProductsAPI/obj/.store/.stage/qphp0d5y.ppx</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/home/gpmrks/ProductsAPI/obj/.store/.stage/qphp0d5y.ppx</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/home/gpmrks/CatalogAPI/obj/.store/.stage/qphp0d5y.ppx</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/home/gpmrks/CatalogAPI/obj/.store/.stage/qphp0d5y.ppx</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">DotnetToolReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.4.2</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="/home/gpmrks/ProductsAPI/obj/.store/.stage/qphp0d5y.ppx/" />
+    <SourceRoot Include="/home/gpmrks/CatalogAPI/obj/.store/.stage/qphp0d5y.ppx/" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Pkgdotnet-aspnet-codegenerator Condition=" '$(Pkgdotnet-aspnet-codegenerator)' == '' ">/home/gpmrks/ProductsAPI/obj/.store/.stage/qphp0d5y.ppx/dotnet-aspnet-codegenerator/7.0.8</Pkgdotnet-aspnet-codegenerator>
+    <Pkgdotnet-aspnet-codegenerator Condition=" '$(Pkgdotnet-aspnet-codegenerator)' == '' ">/home/gpmrks/CatalogAPI/obj/.store/.stage/qphp0d5y.ppx/dotnet-aspnet-codegenerator/7.0.8</Pkgdotnet-aspnet-codegenerator>
   </PropertyGroup>
 </Project>

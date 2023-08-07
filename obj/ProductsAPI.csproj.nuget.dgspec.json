@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/gpmrks/ProductsAPI/ProductsAPI.csproj": {}
+    "/home/gpmrks/CatalogAPI/CatalogAPI.csproj": {}
   },
   "projects": {
-    "/home/gpmrks/ProductsAPI/ProductsAPI.csproj": {
+    "/home/gpmrks/CatalogAPI/CatalogAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/gpmrks/ProductsAPI/ProductsAPI.csproj",
-        "projectName": "ProductsAPI",
-        "projectPath": "/home/gpmrks/ProductsAPI/ProductsAPI.csproj",
+        "projectUniqueName": "/home/gpmrks/CatalogAPI/CatalogAPI.csproj",
+        "projectName": "CatalogAPI",
+        "projectPath": "/home/gpmrks/CatalogAPI/CatalogAPI.csproj",
         "packagesPath": "/home/gpmrks/.nuget/packages/",
-        "outputPath": "/home/gpmrks/ProductsAPI/obj/",
+        "outputPath": "/home/gpmrks/CatalogAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/gpmrks/.nuget/NuGet/NuGet.Config"

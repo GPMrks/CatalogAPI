@@ -1,4 +1,4 @@
-namespace ProductsAPI.Exceptions;
+namespace CatalogAPI.Exceptions;
 
 public class CategoryNotFoundException : ApplicationException
 {

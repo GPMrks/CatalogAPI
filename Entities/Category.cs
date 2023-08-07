@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProductsAPI.Entities;
+namespace CatalogAPI.Entities;
 
 [Table("Categories")]
 public class Category

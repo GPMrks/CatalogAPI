@@ -410,7 +410,7 @@
     ]
   },
   "packageFolders": {
-    "/home/gpmrks/ProductsAPI/obj/.store/.stage/qphp0d5y.ppx": {}
+    "/home/gpmrks/CatalogAPI/obj/.store/.stage/qphp0d5y.ppx": {}
   },
   "project": {
     "version": "1.0.0",
@@ -418,8 +418,8 @@
       "projectUniqueName": "/tmp/88e9b379-17c3-412c-8b31-c95fca25b6bc/restore.csproj",
       "projectName": "restore",
       "projectPath": "/tmp/88e9b379-17c3-412c-8b31-c95fca25b6bc/restore.csproj",
-      "packagesPath": "/home/gpmrks/ProductsAPI/obj/.store/.stage/qphp0d5y.ppx",
-      "outputPath": "/home/gpmrks/ProductsAPI/obj/.store/.stage/qphp0d5y.ppx/",
+      "packagesPath": "/home/gpmrks/CatalogAPI/obj/.store/.stage/qphp0d5y.ppx",
+      "outputPath": "/home/gpmrks/CatalogAPI/obj/.store/.stage/qphp0d5y.ppx/",
       "projectStyle": "DotnetToolReference",
       "configFilePaths": [
         "/home/gpmrks/.nuget/NuGet/NuGet.Config"

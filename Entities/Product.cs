@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProductsAPI.Entities;
+namespace CatalogAPI.Entities;
 
 [Table("Products")]
 public class Product

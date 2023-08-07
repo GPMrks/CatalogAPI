@@ -1,6 +1,6 @@
-using ProductsAPI.Entities;
+using CatalogAPI.Entities;
 
-namespace ProductsAPI.Services;
+namespace CatalogAPI.Services;
 
 public interface ICategoriesService
 {

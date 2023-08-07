@@ -11,7 +11,7 @@ using ProductsAPI.Context;
 
 namespace ProductsAPI.Migrations
 {
-    [DbContext(typeof(ProductsApiContext))]
+    [DbContext(typeof(CatalogApiContext))]
     [Migration("20230806231725_TablesAdjustments")]
     partial class TablesAdjustments
     {
@@ -25,7 +25,7 @@ namespace ProductsAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ProductsAPI.Entities.Category", b =>
+            modelBuilder.Entity("CatalogAPI.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace ProductsAPI.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ProductsAPI.Entities.Product", b =>
+            modelBuilder.Entity("CatalogAPI.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -90,9 +90,9 @@ namespace ProductsAPI.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("ProductsAPI.Entities.Product", b =>
+            modelBuilder.Entity("CatalogAPI.Entities.Product", b =>
                 {
-                    b.HasOne("ProductsAPI.Entities.Category", "Category")
+                    b.HasOne("CatalogAPI.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -101,7 +101,7 @@ namespace ProductsAPI.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ProductsAPI.Entities.Category", b =>
+            modelBuilder.Entity("CatalogAPI.Entities.Category", b =>
                 {
                     b.Navigation("Products");
                 });

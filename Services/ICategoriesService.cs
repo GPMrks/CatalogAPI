@@ -6,6 +6,8 @@ public interface ICategoriesService
 {
     Task<List<Category>> FindAllCategoriesAsync();
 
+    Task<List<Category>> FindProductsInCategories();
+    
     Task<Category> FindCategoryByIdAsync(int id);
 
     Task<Category> CreateCategoryAsync(Category category);

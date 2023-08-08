@@ -6,29 +6,31 @@ namespace CatalogAPI.Entities;
 [Table("Products")]
 public class Product
 {
-    [Key]
+
+    [Key] 
     public int Id { get; set; }
-    
-    [Required]
-    [MaxLength(80)]
+
+    [Required] 
+    [MaxLength(80)] 
     public string? Name { get; set; }
-    
-    [Required]
-    [MaxLength(300)]
+
+    [Required] 
+    [MaxLength(300)] 
     public string? Description { get; set; }
-    
+
     [Required]
     [Column(TypeName = "decimal(10,2)")]
     public decimal Price { get; set; }
-    
-    [Required]
-    [MaxLength(300)]
+
+    [Required] 
+    [MaxLength(300)] 
     public string? ImageUrl { get; set; }
+
     public float Stock { get; set; }
     public DateTime RegisterDate { get; set; }
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
-
+    
     public Product()
     {
     }

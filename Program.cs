@@ -1,15 +1,16 @@
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 using CatalogAPI.Context;
 using CatalogAPI.Services;
 using CatalogAPI.Services.Impl;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
@@ -28,8 +29,8 @@ builder.Services.AddSwaggerGen(options =>
         {
             Name = "Guilherme Marques",
             Email = "guilhermepereiramarques@hotmail.com",
-            Url = new Uri("https://linkedin.com/in/guilherme-p-marques"),
-        },
+            Url = new Uri("https://linkedin.com/in/guilherme-p-marques")
+        }
         // License = new OpenApiLicense
         // {
         //     Name = "Use under LICX",

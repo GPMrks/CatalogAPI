@@ -7,15 +7,27 @@ namespace CatalogAPI.Entities;
 [Table("Categories")]
 public class Category
 {
-    [Key]
+    [Key] 
     public int Id { get; set; }
-    
+
     [Required]
     [MaxLength(80)]
     public string? Name { get; set; }
-    
+
     [Required]
     [MaxLength(300)]
     public string? ImageUrl { get; set; }
+
     public ICollection<Product>? Products { get; set; } = new Collection<Product>();
+
+    public Category()
+    {
+    }
+
+    public Category(int id, string? name, string? imageUrl)
+    {
+        Id = id;
+        Name = name;
+        ImageUrl = imageUrl;
+    }
 }

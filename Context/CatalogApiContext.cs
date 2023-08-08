@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using CatalogAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Context;
 

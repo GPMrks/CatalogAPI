@@ -2,7 +2,6 @@ using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Validations.Rules;
 
 namespace CatalogAPI.Controllers;
 
@@ -17,17 +16,29 @@ public class CategoriesController : ControllerBase
     {
         _categoriesService = categoriesService;
     }
-    
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAllCategories()
     {
         var categories = await _categoriesService.FindAllCategoriesAsync();
-        
+
         if (categories is null) return NotFound();
 
         return Ok(categories);
+    }
+    
+    [HttpGet("Products")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAllCategoriesProducts()
+    {
+        var categoriesAndProducts = await _categoriesService.FindProductsInCategories();
+
+        if (categoriesAndProducts is null) return NotFound();
+
+        return Ok(categoriesAndProducts);
     }
 
     [HttpGet("{id:int}", Name = "GetCategoryById")]

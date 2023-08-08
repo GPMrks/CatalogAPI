@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
 using CatalogAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogAPI.Controllers;
@@ -30,10 +25,10 @@ public class ProductsController : ControllerBase
         var products = await _productsService.FindAllProductsAsync();
 
         if (products is null) return NotFound();
-        
+
         return Ok(products);
     }
-    
+
     [HttpGet("{id:int}", Name = "GetProductById")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -67,7 +62,7 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> UpdateProduct(int id, Product product)
     {
         if (id != product.Id) return BadRequest();
-        
+
         try
         {
             await _productsService.UpdateProductAsync(id, product);

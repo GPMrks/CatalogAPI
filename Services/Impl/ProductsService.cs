@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using CatalogAPI.Context;
 using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Services.Impl;
 
@@ -13,7 +13,7 @@ public class ProductsService : IProductsService
     {
         _catalogApiContext = catalogApiContext;
     }
-    
+
     public async Task<List<Product>> FindAllProductsAsync()
     {
         var products = await _catalogApiContext.Products.ToListAsync();
@@ -49,12 +49,10 @@ public class ProductsService : IProductsService
 
     private async Task<Product> CheckIfProductExists(int id)
     {
-        Product product = await _catalogApiContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+        var product = await _catalogApiContext.Products.FirstOrDefaultAsync(p => p.Id == id);
 
-        if (product is null) {
-            throw new ProductNotFoundException("Product not found with ID: " + id);
-        }
-        
+        if (product is null) throw new ProductNotFoundException("Product not found with ID: " + id);
+
         return product;
     }
 }

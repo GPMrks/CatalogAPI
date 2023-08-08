@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using CatalogAPI.Context;
 using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Services.Impl;
 
@@ -18,6 +18,12 @@ public class CategoriesService : ICategoriesService
     {
         var categories = await _catalogApiContext.Categories.ToListAsync();
         return categories;
+    }
+
+    public async Task<List<Category>> FindProductsInCategories()
+    {
+        var categoriesAndProducts = await _catalogApiContext.Categories.Include(p => p.Products).ToListAsync();
+        return categoriesAndProducts;
     }
 
     public async Task<Category> FindCategoryByIdAsync(int id)
@@ -46,15 +52,13 @@ public class CategoriesService : ICategoriesService
         _catalogApiContext.Categories.Remove(category);
         await _catalogApiContext.SaveChangesAsync();
     }
-    
+
     private async Task<Category> CheckIfCategoryExists(int id)
     {
-        Category category = await _catalogApiContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        var category = await _catalogApiContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
-        if (category is null) {
-            throw new CategoryNotFoundException("Category not found with ID: " + id);
-        }
-        
+        if (category is null) throw new CategoryNotFoundException("Category not found with ID: " + id);
+
         return category;
     }
 }

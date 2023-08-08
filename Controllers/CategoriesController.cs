@@ -2,11 +2,13 @@ using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Validations.Rules;
 
 namespace CatalogAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoriesService _categoriesService;
@@ -15,14 +17,14 @@ public class CategoriesController : ControllerBase
     {
         _categoriesService = categoriesService;
     }
-
+    
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAllCategories()
     {
         var categories = await _categoriesService.FindAllCategoriesAsync();
-
+        
         if (categories is null) return NotFound();
 
         return Ok(categories);
@@ -40,7 +42,8 @@ public class CategoriesController : ControllerBase
         }
         catch (CategoryNotFoundException e)
         {
-            return NotFound(e.Message);
+            var problemDetails = new CategoryNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
         }
     }
 
@@ -68,7 +71,8 @@ public class CategoriesController : ControllerBase
         }
         catch (CategoryNotFoundException e)
         {
-            return NotFound(e.Message);
+            var problemDetails = new CategoryNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
         }
     }
 
@@ -83,7 +87,8 @@ public class CategoriesController : ControllerBase
         }
         catch (CategoryNotFoundException e)
         {
-            return NotFound(e.Message);
+            var problemDetails = new CategoryNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
         }
     }
 }

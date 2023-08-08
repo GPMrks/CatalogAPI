@@ -5,6 +5,7 @@
 /home/gpmrks/CatalogAPI/bin/Debug/net7.0/CatalogAPI.runtimeconfig.json
 /home/gpmrks/CatalogAPI/bin/Debug/net7.0/CatalogAPI.dll
 /home/gpmrks/CatalogAPI/bin/Debug/net7.0/CatalogAPI.pdb
+/home/gpmrks/CatalogAPI/bin/Debug/net7.0/CatalogAPI.xml
 /home/gpmrks/CatalogAPI/bin/Debug/net7.0/Humanizer.dll
 /home/gpmrks/CatalogAPI/bin/Debug/net7.0/Microsoft.AspNetCore.OpenApi.dll
 /home/gpmrks/CatalogAPI/bin/Debug/net7.0/Microsoft.AspNetCore.Razor.Language.dll
@@ -228,6 +229,7 @@
 /home/gpmrks/CatalogAPI/obj/Debug/net7.0/CatalogAPI.csproj.CopyComplete
 /home/gpmrks/CatalogAPI/obj/Debug/net7.0/CatalogAPI.dll
 /home/gpmrks/CatalogAPI/obj/Debug/net7.0/refint/CatalogAPI.dll
+/home/gpmrks/CatalogAPI/obj/Debug/net7.0/CatalogAPI.xml
 /home/gpmrks/CatalogAPI/obj/Debug/net7.0/CatalogAPI.pdb
 /home/gpmrks/CatalogAPI/obj/Debug/net7.0/CatalogAPI.genruntimeconfig.cache
 /home/gpmrks/CatalogAPI/obj/Debug/net7.0/ref/CatalogAPI.dll

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace CatalogAPI.Exceptions;
 
 public class CategoryNotFoundException : ApplicationException

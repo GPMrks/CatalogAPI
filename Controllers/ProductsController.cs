@@ -12,6 +12,7 @@ namespace CatalogAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class ProductsController : ControllerBase
 {
     private readonly IProductsService _productsService;
@@ -45,7 +46,8 @@ public class ProductsController : ControllerBase
         }
         catch (ProductNotFoundException e)
         {
-            return NotFound(e.Message);
+            var problemDetails = new ProductNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
         }
     }
 
@@ -73,7 +75,8 @@ public class ProductsController : ControllerBase
         }
         catch (ProductNotFoundException e)
         {
-            return NotFound(e.Message);
+            var problemDetails = new ProductNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
         }
     }
 
@@ -90,7 +93,8 @@ public class ProductsController : ControllerBase
         }
         catch (ProductNotFoundException e)
         {
-            return NotFound(e.Message);
+            var problemDetails = new ProductNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
         }
     }
 }

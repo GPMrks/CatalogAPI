@@ -1,13 +1,14 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CatalogAPI.Entities;
 
 [Table("Categories")]
 public class Category
 {
-    [Key] 
+    [Key]
     public int Id { get; set; }
 
     [Required]
@@ -18,6 +19,7 @@ public class Category
     [MaxLength(300)]
     public string? ImageUrl { get; set; }
 
+    [JsonIgnore]
     public ICollection<Product>? Products { get; set; } = new Collection<Product>();
 
     public Category()

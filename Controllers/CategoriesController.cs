@@ -16,7 +16,7 @@ public class CategoriesController : ControllerBase
     {
         _categoriesService = categoriesService;
     }
-
+    
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,7 +51,7 @@ public class CategoriesController : ControllerBase
             var category = await _categoriesService.FindCategoryByIdAsync(id);
             return Ok(category);
         }
-        catch (CategoryNotFoundException e)
+        catch (CategoryNotFoundException)
         {
             var problemDetails = new CategoryNotFoundProblemDetails(id);
             return NotFound(problemDetails);
@@ -80,7 +80,7 @@ public class CategoriesController : ControllerBase
             await _categoriesService.UpdateCategoryAsync(id, category);
             return Ok(category);
         }
-        catch (CategoryNotFoundException e)
+        catch (CategoryNotFoundException)
         {
             var problemDetails = new CategoryNotFoundProblemDetails(id);
             return NotFound(problemDetails);
@@ -96,7 +96,7 @@ public class CategoriesController : ControllerBase
             await _categoriesService.DeleteCategoryAsync(id);
             return NoContent();
         }
-        catch (CategoryNotFoundException e)
+        catch (CategoryNotFoundException)
         {
             var problemDetails = new CategoryNotFoundProblemDetails(id);
             return NotFound(problemDetails);

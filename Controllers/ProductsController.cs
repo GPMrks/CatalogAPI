@@ -20,7 +20,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Product>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllProducts()
+    public async Task<ActionResult<List<Product>>> GetAllProductsAsync()
     {
         var products = await _productsService.FindAllProductsAsync();
 
@@ -32,7 +32,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{id:int}", Name = "GetProductById")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetProductById(int id)
+    public async Task<ActionResult<Product>> GetProductByIdAsync(int id)
     {
         try
         {
@@ -49,7 +49,7 @@ public class ProductsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Product))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateProduct(Product product)
+    public async Task<ActionResult<Product>> CreateProductAsync(Product product)
     {
         if (product is null) return BadRequest();
         await _productsService.CreateProductAsync(product);
@@ -59,7 +59,7 @@ public class ProductsController : ControllerBase
     [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateProduct(int id, Product product)
+    public async Task<ActionResult<Product>> UpdateProductAsync(int id, Product product)
     {
         if (id != product.Id) return BadRequest();
 
@@ -78,7 +78,7 @@ public class ProductsController : ControllerBase
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteProduct(int id)
+    public async Task<ActionResult> DeleteProductAsync(int id)
     {
         try
         {

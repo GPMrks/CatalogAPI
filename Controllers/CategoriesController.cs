@@ -20,7 +20,7 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllCategories()
+    public async Task<ActionResult<List<Category>>> GetAllCategoriesAsync()
     {
         var categories = await _categoriesService.FindAllCategoriesAsync();
 
@@ -32,7 +32,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("Products")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllCategoriesProducts()
+    public async Task<ActionResult<List<Category>>> GetAllCategoriesProductsAsync()
     {
         var categoriesAndProducts = await _categoriesService.FindProductsInCategories();
 
@@ -44,7 +44,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("{id:int}", Name = "GetCategoryById")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetCategoryById(int id)
+    public async Task<ActionResult<Category>> GetCategoryByIdAsync(int id)
     {
         try
         {
@@ -61,7 +61,7 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Category))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateCategory(Category category)
+    public async Task<ActionResult<Category>> CreateCategoryAsync(Category category)
     {
         if (category is null) return BadRequest();
         await _categoriesService.CreateCategoryAsync(category);
@@ -71,7 +71,7 @@ public class CategoriesController : ControllerBase
     [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateCategory(int id, Category category)
+    public async Task<ActionResult<Category>> UpdateCategoryAsync(int id, Category category)
     {
         if (id != category.Id) return BadRequest();
 
@@ -88,7 +88,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteCategory(int id)
+    public async Task<ActionResult> DeleteCategoryAsync(int id)
     {
         try
         {

@@ -84,6 +84,11 @@ public class CategoriesController : ControllerBase
             var problemDetails = new CategoryNotFoundProblemDetails(id);
             return NotFound(problemDetails);
         }
+        catch (CannotUpdateCategoryException)
+        {
+            var problemDetails = new CannotUpdateCategoryProblemDetails(id);
+            return BadRequest(problemDetails);
+        }
     }
 
     [HttpDelete("{id:int}")]

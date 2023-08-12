@@ -72,6 +72,11 @@ public class ProductsController : ControllerBase
             var problemDetails = new ProductNotFoundProblemDetails(id);
             return NotFound(problemDetails);
         }
+        catch (CannotUpdateProductException)
+        {
+            var problemDetails = new CannotUpdateProductProblemDetails(id);
+            return BadRequest(problemDetails);
+        }
     }
 
     [HttpDelete("{id:int}")]

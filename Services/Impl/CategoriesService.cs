@@ -53,12 +53,19 @@ public class CategoriesService : ICategoriesService
 
     public async Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryForm categoryForm)
     {
-        Category category = await CheckIfCategoryExists(id);
-        category.Name = categoryForm.Name;
-        category.ImageUrl = categoryForm.ImageUrl;
-        _catalogApiContext.Entry(category).State = EntityState.Modified;
-        await _catalogApiContext.SaveChangesAsync();
-        return new CategoryDTO(category);
+        try
+        {
+            Category category = await CheckIfCategoryExists(id);
+            category.Name = categoryForm.Name;
+            category.ImageUrl = categoryForm.ImageUrl;
+            _catalogApiContext.Entry(category).State = EntityState.Modified;
+            await _catalogApiContext.SaveChangesAsync();
+            return new CategoryDTO(category);
+        }
+        catch (DbUpdateException)
+        {
+            throw new CannotUpdateCategoryException();
+        }
     }
 
     public async Task DeleteCategoryAsync(int id)

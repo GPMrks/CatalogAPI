@@ -1,5 +1,6 @@
 using CatalogAPI.Context;
 using CatalogAPI.Entities;
+using CatalogAPI.Entities.DTOs;
 using CatalogAPI.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,36 +15,50 @@ public class CategoriesService : ICategoriesService
         _catalogApiContext = catalogApiContext;
     }
 
-    public async Task<List<Category>> FindAllCategoriesAsync()
+    public async Task<List<CategoryDTO>> FindAllCategoriesAsync()
     {
         var categories = await _catalogApiContext.Categories.ToListAsync();
-        return categories;
+        return categories.Select(category => new CategoryDTO
+        {
+            Id = category.Id,
+            Name = category.Name,
+            ImageUrl = category.ImageUrl
+        }).ToList();
     }
 
-    public async Task<List<Category>> FindProductsInCategories()
+    public async Task<List<CategoryDTO>> FindProductsInCategories()
     {
         var categoriesAndProducts = await _catalogApiContext.Categories.Include(p => p.Products).ToListAsync();
-        return categoriesAndProducts;
+        return categoriesAndProducts.Select(category => new CategoryDTO(category)).ToList();
     }
 
-    public async Task<Category> FindCategoryByIdAsync(int id)
+    public async Task<CategoryDTO> FindCategoryByIdAsync(int id)
     {
-        return await CheckIfCategoryExists(id);
+        Category category = await CheckIfCategoryExists(id);
+        return new CategoryDTO
+        {
+            Id = category.Id,
+            Name = category.Name,
+            ImageUrl = category.ImageUrl
+        };
     }
 
-    public async Task<Category> CreateCategoryAsync(Category category)
+    public async Task<CategoryDTO> CreateCategoryAsync(CategoryForm categoryForm)
     {
+        Category category = new Category(categoryForm.Name, categoryForm.ImageUrl);
         _catalogApiContext.Categories.Add(category);
         await _catalogApiContext.SaveChangesAsync();
-        return category;
+        return new CategoryDTO(category);
     }
 
-    public async Task<Category> UpdateCategoryAsync(int id, Category category)
+    public async Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryForm categoryForm)
     {
-        await CheckIfCategoryExists(id);
+        Category category = await CheckIfCategoryExists(id);
+        category.Name = categoryForm.Name;
+        category.ImageUrl = categoryForm.ImageUrl;
         _catalogApiContext.Entry(category).State = EntityState.Modified;
         await _catalogApiContext.SaveChangesAsync();
-        return category;
+        return new CategoryDTO(category);
     }
 
     public async Task DeleteCategoryAsync(int id)

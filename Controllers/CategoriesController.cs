@@ -1,4 +1,5 @@
 using CatalogAPI.Entities;
+using CatalogAPI.Entities.DTOs;
 using CatalogAPI.Exceptions;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,38 +19,38 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<Category>>> GetAllCategoriesAsync()
+    public async Task<ActionResult<List<CategoryDTO>>> GetAllCategoriesAsync()
     {
-        var categories = await _categoriesService.FindAllCategoriesAsync();
+        var categoriesDto = await _categoriesService.FindAllCategoriesAsync();
 
-        if (categories is null) return NotFound();
+        if (categoriesDto is null) return NotFound();
 
-        return Ok(categories);
+        return Ok(categoriesDto);
     }
     
     [HttpGet("Products")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Category>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<Category>>> GetAllCategoriesProductsAsync()
+    public async Task<ActionResult<List<CategoryDTO>>> GetAllCategoriesProductsAsync()
     {
-        var categoriesAndProducts = await _categoriesService.FindProductsInCategories();
+        var categoriesAndProductsDto = await _categoriesService.FindProductsInCategories();
 
-        if (categoriesAndProducts is null) return NotFound();
+        if (categoriesAndProductsDto is null) return NotFound();
 
-        return Ok(categoriesAndProducts);
+        return Ok(categoriesAndProductsDto);
     }
 
     [HttpGet("{id:int}", Name = "GetCategoryById")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Category>> GetCategoryByIdAsync(int id)
+    public async Task<ActionResult<CategoryDTO>> GetCategoryByIdAsync(int id)
     {
         try
         {
-            var category = await _categoriesService.FindCategoryByIdAsync(id);
-            return Ok(category);
+            CategoryDTO categoryDto = await _categoriesService.FindCategoryByIdAsync(id);
+            return Ok(categoryDto);
         }
         catch (CategoryNotFoundException)
         {
@@ -59,26 +60,24 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Category))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CategoryDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Category>> CreateCategoryAsync(Category category)
+    public async Task<ActionResult<CategoryDTO>> CreateCategoryAsync(CategoryForm categoryForm)
     {
-        if (category is null) return BadRequest();
-        await _categoriesService.CreateCategoryAsync(category);
-        return new CreatedAtRouteResult("GetCategoryById", new { id = category.Id }, category);
+        if (categoryForm is null) return BadRequest();
+        CategoryDTO categoryDto = await _categoriesService.CreateCategoryAsync(categoryForm);
+        return new CreatedAtRouteResult("GetCategoryById", new { id = categoryDto.Id }, categoryDto);
     }
 
     [HttpPut("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Category>> UpdateCategoryAsync(int id, Category category)
+    public async Task<ActionResult<CategoryDTO>> UpdateCategoryAsync(int id, CategoryForm categoryForm)
     {
-        if (id != category.Id) return BadRequest();
-
         try
         {
-            await _categoriesService.UpdateCategoryAsync(id, category);
-            return Ok(category);
+            CategoryDTO categoryDto = await _categoriesService.UpdateCategoryAsync(id, categoryForm);
+            return Ok(categoryDto);
         }
         catch (CategoryNotFoundException)
         {

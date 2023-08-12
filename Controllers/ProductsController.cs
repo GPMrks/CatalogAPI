@@ -1,4 +1,5 @@
 using CatalogAPI.Entities;
+using CatalogAPI.Entities.DTOs;
 using CatalogAPI.Exceptions;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,26 +19,26 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Product>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<Product>>> GetAllProductsAsync()
+    public async Task<ActionResult<List<ProductDTO>>> GetAllProductsAsync()
     {
-        var products = await _productsService.FindAllProductsAsync();
+        var productsDtos = await _productsService.FindAllProductsAsync();
 
-        if (products is null) return NotFound();
+        if (productsDtos is null) return NotFound();
 
-        return Ok(products);
+        return Ok(productsDtos);
     }
 
     [HttpGet("{id:int}", Name = "GetProductById")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Product>> GetProductByIdAsync(int id)
+    public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(int id)
     {
         try
         {
-            var products = await _productsService.FindProductByIdAsync(id);
-            return Ok(products);
+            var productDto = await _productsService.FindProductByIdAsync(id);
+            return Ok(productDto);
         }
         catch (ProductNotFoundException)
         {
@@ -47,26 +48,24 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Product))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProductDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Product>> CreateProductAsync(Product product)
+    public async Task<ActionResult<ProductDTO>> CreateProductAsync(ProductForm productForm)
     {
-        if (product is null) return BadRequest();
-        await _productsService.CreateProductAsync(product);
-        return new CreatedAtRouteResult("GetProductById", new { id = product.Id }, product);
+        if (productForm is null) return BadRequest();
+        var productDto = await _productsService.CreateProductAsync(productForm);
+        return new CreatedAtRouteResult("GetProductById", new { id = productDto.Id }, productDto);
     }
 
     [HttpPut("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Product>> UpdateProductAsync(int id, Product product)
+    public async Task<ActionResult<ProductDTO>> UpdateProductAsync(int id, ProductForm productForm)
     {
-        if (id != product.Id) return BadRequest();
-
         try
         {
-            await _productsService.UpdateProductAsync(id, product);
-            return Ok(product);
+            var productDto = await _productsService.UpdateProductAsync(id, productForm);
+            return Ok(productDto);
         }
         catch (ProductNotFoundException)
         {

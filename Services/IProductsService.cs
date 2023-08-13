@@ -1,16 +1,17 @@
 using CatalogAPI.Entities;
+using CatalogAPI.Entities.DTOs;
 
 namespace CatalogAPI.Services;
 
 public interface IProductsService
 {
-    Task<List<Product>> FindAllProductsAsync();
+    Task<List<ProductDTO>> FindAllProductsAsync();
 
-    Task<Product> FindProductByIdAsync(int id);
+    Task<ProductDTO> FindProductByIdAsync(int id);
 
-    Task<Product> CreateProductAsync(Product product);
+    Task<ProductDTO> CreateProductAsync(ProductForm productForm);
 
-    Task<Product> UpdateProductAsync(int id, Product product);
+    Task<ProductDTO> UpdateProductAsync(int id, ProductForm productForm);
 
     Task DeleteProductAsync(int id);
 }

@@ -18,17 +18,15 @@ public class Category
     [Required]
     [MaxLength(300)]
     public string? ImageUrl { get; set; }
-
-    [JsonIgnore]
+    
     public ICollection<Product>? Products { get; set; } = new Collection<Product>();
 
     public Category()
     {
     }
 
-    public Category(int id, string? name, string? imageUrl)
+    public Category(string? name, string? imageUrl)
     {
-        Id = id;
         Name = name;
         ImageUrl = imageUrl;
     }

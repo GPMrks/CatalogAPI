@@ -9,8 +9,8 @@ public class ProductNotFoundProblemDetails : ProblemDetails
         Title = "Product Not Found";
         Status = 404;
         Detail = "The requested Product was not found with id: " + id;
-        Instance = "api/products/" + id;
-        Type = "api/products/not-found";
+        Instance = "api/Products/" + id;
+        Type = "api/Products/Not-Found";
         Extensions.Add("requestedId", id);
     }
 }

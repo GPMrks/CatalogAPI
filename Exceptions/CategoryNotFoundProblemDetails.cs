@@ -9,8 +9,8 @@ public class CategoryNotFoundProblemDetails : ProblemDetails
         Title = "Category Not Found";
         Status = 404;
         Detail = "The requested Category was not found with id: " + id;
-        Instance = "api/categories/" + id;
-        Type = "api/categories/not-found";
+        Instance = "api/Categories/" + id;
+        Type = "api/Categories/Not-Found";
         Extensions.Add("requestedId", id);
     }
 }

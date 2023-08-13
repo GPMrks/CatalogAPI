@@ -38,14 +38,14 @@ public class Product
     {
     }
 
-    public Product(int id, string name, string description, decimal price, string imageUrl, float stock, DateTime registerDate)
+    public Product(string? name, string? description, decimal price, string? imageUrl, float stock, DateTime registerDate, int categoryId)
     {
-        Id = id;
         Name = name;
         Description = description;
         Price = price;
         ImageUrl = imageUrl;
         Stock = stock;
         RegisterDate = registerDate;
+        CategoryId = categoryId;
     }
 }

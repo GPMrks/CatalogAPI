@@ -1,18 +1,19 @@
 using CatalogAPI.Entities;
+using CatalogAPI.Entities.DTOs;
 
 namespace CatalogAPI.Services;
 
 public interface ICategoriesService
 {
-    Task<List<Category>> FindAllCategoriesAsync();
+    Task<List<CategoryDTO>> FindAllCategoriesAsync();
 
-    Task<List<Category>> FindProductsInCategories();
+    Task<List<CategoryDTO>> FindProductsInCategories();
     
-    Task<Category> FindCategoryByIdAsync(int id);
+    Task<CategoryDTO> FindCategoryByIdAsync(int id);
 
-    Task<Category> CreateCategoryAsync(Category category);
+    Task<CategoryDTO> CreateCategoryAsync(CategoryForm categoryForm);
 
-    Task<Category> UpdateCategoryAsync(int id, Category category);
+    Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryForm categoryForm);
 
     Task DeleteCategoryAsync(int id);
 }

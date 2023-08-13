@@ -21,9 +21,9 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Version = "v1",
-        Title = "Catalog API for Products and Categories of Products",
-        Description = "A simple example ASP.NET Core Web API",
+        Version = "v5.0.0",
+        Title = "Catalog API",
+        Description = "Catalog API for Products and Categories of Products - ASP.NET Core",
         TermsOfService = new Uri("https://example.com/terms"),
         Contact = new OpenApiContact
         {

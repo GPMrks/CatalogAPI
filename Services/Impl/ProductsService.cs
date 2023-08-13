@@ -40,13 +40,13 @@ public class ProductsService : IProductsService
         try
         {
             var product = await CheckIfProductExists(id);
-            product.Name = productForm.Name;
-            product.Description = productForm.Description;
-            product.Price = productForm.Price;
-            product.ImageUrl = productForm.ImageUrl;
-            product.Stock = productForm.Stock;
-            product.RegisterDate = productForm.RegisterDate;
-            product.CategoryId = productForm.CategoryId;
+            product.Name = productForm.Name ?? product.Name;
+            product.Description = productForm.Description ?? product.Description;
+            product.Price = (productForm.Price == 0) ? product.Price : productForm.Price;
+            product.ImageUrl = productForm.ImageUrl ?? product.ImageUrl;
+            product.Stock = (productForm.Stock == 0) ? product.Stock : productForm.Stock;
+            product.RegisterDate = (productForm.RegisterDate == DateTime.MinValue) ? product.RegisterDate : productForm.RegisterDate;
+            product.CategoryId = (productForm.CategoryId == 0) ? product.CategoryId : productForm.CategoryId;
             _catalogApiContext.Entry(product).State = EntityState.Modified;
             await _catalogApiContext.SaveChangesAsync();
             return new ProductDTO(product);

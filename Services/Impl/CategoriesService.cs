@@ -56,8 +56,8 @@ public class CategoriesService : ICategoriesService
         try
         {
             Category category = await CheckIfCategoryExists(id);
-            category.Name = categoryForm.Name;
-            category.ImageUrl = categoryForm.ImageUrl;
+            category.Name = categoryForm.Name ?? category.Name;
+            category.ImageUrl = categoryForm.ImageUrl ?? category.ImageUrl;
             _catalogApiContext.Entry(category).State = EntityState.Modified;
             await _catalogApiContext.SaveChangesAsync();
             return new CategoryDTO(category);

@@ -1,7 +1,7 @@
-using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
+using CatalogAPI.Entities;
 
-namespace CatalogAPI.Entities.DTOs;
+namespace CatalogAPI.DTOs;
 
 public class CategoryDTO
 {

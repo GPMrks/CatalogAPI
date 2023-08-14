@@ -1,4 +1,6 @@
-namespace CatalogAPI.Entities.DTOs;
+using CatalogAPI.Entities;
+
+namespace CatalogAPI.DTOs;
 
 public class ProductDTO
 {

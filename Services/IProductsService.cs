@@ -1,5 +1,5 @@
+using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
-using CatalogAPI.Entities.DTOs;
 
 namespace CatalogAPI.Services;
 

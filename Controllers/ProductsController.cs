@@ -1,5 +1,4 @@
-using CatalogAPI.Entities;
-using CatalogAPI.Entities.DTOs;
+using CatalogAPI.DTOs;
 using CatalogAPI.Exceptions;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;

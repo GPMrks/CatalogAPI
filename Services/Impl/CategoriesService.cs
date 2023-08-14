@@ -1,6 +1,6 @@
 using CatalogAPI.Context;
+using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
-using CatalogAPI.Entities.DTOs;
 using CatalogAPI.Exceptions;
 using Microsoft.EntityFrameworkCore;
 

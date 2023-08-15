@@ -10,8 +10,28 @@
 * ASPNet 7
 * .Net 7
 * Swagger OpenAPI 3
+* Dockerfile
+* Docker compose
+
+## Trying it out
+
+Clone the repo:
+
+```
+git clone git@github.com:GPMrks/CatalogAPI.git
+```
+
+Inside the project's folder run the following command:
+
+```
+docker compose up --build
+```
 
 ## Entities
+
+## Model Diagram
+
+![Diagram](Image/model.png)
 
 ### Category
 
@@ -31,3 +51,6 @@
 * RegisterDate
 * CategoryId
 * Category
+
+
+

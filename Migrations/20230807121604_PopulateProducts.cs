@@ -13,12 +13,12 @@ namespace CatalogAPI.Migrations
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Name", "Description", "Price", "ImageUrl", "Stock", "RegisterDate", "CategoryId" },
-                values: new object[] { "Diet Coke", "Cola Soda 350ml", 5.45, "coke.jpg", 50, DateTime.Now.ToUniversalTime(), 2 });
+                values: new object[] { "Diet Coke", "Cola Soda 350ml", 5.45, "coke.jpg", 50, DateTime.Now.ToUniversalTime(), 1 });
             
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Name", "Description", "Price", "ImageUrl", "Stock", "RegisterDate", "CategoryId" },
-                values: new object[] { "Tuna Snack", "Tuna sandwich with mayo", 8.50, "tuna.jpg", 10, DateTime.Now.ToUniversalTime(), 3 });
+                values: new object[] { "Tuna Snack", "Tuna sandwich with mayo", 8.50, "tuna.jpg", 10, DateTime.Now.ToUniversalTime(), 2 });
             
             migrationBuilder.InsertData(
                 table: "Products",

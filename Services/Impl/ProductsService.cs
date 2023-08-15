@@ -81,9 +81,8 @@ public class ProductsService : IProductsService
 
     public async Task DeleteProductAsync(int id)
     {
-        var product = await CheckIfProductExists(id);
-        _catalogApiContext.Remove(product);
-        await _catalogApiContext.SaveChangesAsync();
+        await CheckIfProductExists(id);
+        await _catalogApiContext.Products.Where(product => product.Id == id).ExecuteDeleteAsync();
     }
 
     private async Task<Product> CheckIfProductExists(int id)

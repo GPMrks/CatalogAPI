@@ -107,7 +107,6 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            await _productsService.FindProductByIdAsync(id);
             await _productsService.DeleteProductAsync(id);
             return NoContent();
         }

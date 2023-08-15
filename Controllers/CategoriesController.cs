@@ -117,7 +117,6 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            await _categoriesService.FindCategoryByIdAsync(id);
             await _categoriesService.DeleteCategoryAsync(id);
             return NoContent();
         }

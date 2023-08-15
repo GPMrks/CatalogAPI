@@ -87,9 +87,8 @@ public class CategoriesService : ICategoriesService
 
     public async Task DeleteCategoryAsync(int id)
     {
-        var category = await CheckIfCategoryExists(id);
-        _catalogApiContext.Categories.Remove(category);
-        await _catalogApiContext.SaveChangesAsync();
+        await CheckIfCategoryExists(id);
+        await _catalogApiContext.Categories.Where(category => category.Id == id).ExecuteDeleteAsync();
     }
 
     private async Task<Category> CheckIfCategoryExists(int id)

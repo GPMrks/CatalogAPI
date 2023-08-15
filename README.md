@@ -52,5 +52,9 @@ docker compose up --build
 * CategoryId
 * Category
 
+## Stay in touch
+
+- Author - [Guilherme Marques](https://www.linkedin.com/in/guilherme-p-marques/)
+- Website - [https://github.com/GPMrks](https://github.com/GPMrks)
 
 

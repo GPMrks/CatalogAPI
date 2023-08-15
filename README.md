@@ -36,7 +36,7 @@ https://localhost:8000
 
 ## Model Diagram
 
-![Diagram](Image/model.png)
+![Diagram](Context/Image/model.png)
 
 ### Category
 

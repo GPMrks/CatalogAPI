@@ -27,6 +27,11 @@ Inside the project's folder run the following command:
 docker compose up --build
 ```
 
+Access:
+```
+https://localhost:8000
+```
+
 ## Entities
 
 ## Model Diagram

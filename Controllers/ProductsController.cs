@@ -77,6 +77,28 @@ public class ProductsController : ControllerBase
             return BadRequest(problemDetails);
         }
     }
+    
+    [HttpPatch("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDTO))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ProductDTO>> UpdateProductPatchAsync(int id, ProductFormPatch productFormPatch)
+    {
+        try
+        {
+            var productDto = await _productsService.UpdateProductPatchAsync(id, productFormPatch);
+            return Ok(productDto);
+        }
+        catch (ProductNotFoundException)
+        {
+            var problemDetails = new ProductNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
+        }
+        catch (CannotUpdateProductException)
+        {
+            var problemDetails = new CannotUpdateProductProblemDetails(id);
+            return BadRequest(problemDetails);
+        }
+    }
 
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

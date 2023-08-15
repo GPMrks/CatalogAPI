@@ -89,6 +89,28 @@ public class CategoriesController : ControllerBase
             return BadRequest(problemDetails);
         }
     }
+    
+    [HttpPatch("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CategoryDTO>> UpdateCategoryPatchAsync(int id, CategoryFormPatch categoryFormPatch)
+    {
+        try
+        {
+            CategoryDTO categoryDto = await _categoriesService.UpdateCategoryPatchAsync(id, categoryFormPatch);
+            return Ok(categoryDto);
+        }
+        catch (CategoryNotFoundException)
+        {
+            var problemDetails = new CategoryNotFoundProblemDetails(id);
+            return NotFound(problemDetails);
+        }
+        catch (CannotUpdateCategoryException)
+        {
+            var problemDetails = new CannotUpdateCategoryProblemDetails(id);
+            return BadRequest(problemDetails);
+        }
+    }
 
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteCategoryAsync(int id)

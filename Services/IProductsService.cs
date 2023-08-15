@@ -12,6 +12,8 @@ public interface IProductsService
     Task<ProductDTO> CreateProductAsync(ProductForm productForm);
 
     Task<ProductDTO> UpdateProductAsync(int id, ProductForm productForm);
+    
+    Task<ProductDTO> UpdateProductPatchAsync(int id, ProductFormPatch productFormPatch);
 
     Task DeleteProductAsync(int id);
 }

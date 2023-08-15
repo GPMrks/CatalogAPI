@@ -14,6 +14,8 @@ public interface ICategoriesService
     Task<CategoryDTO> CreateCategoryAsync(CategoryForm categoryForm);
 
     Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryForm categoryForm);
+    
+    Task<CategoryDTO> UpdateCategoryPatchAsync(int id, CategoryFormPatch categoryFormPatch);
 
     Task DeleteCategoryAsync(int id);
 }

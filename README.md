@@ -29,7 +29,7 @@ docker compose up --build
 
 Access:
 ```
-https://localhost:8000
+http://localhost:8000
 ```
 
 ## Entities

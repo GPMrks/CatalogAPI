@@ -1,0 +1,51 @@
+﻿version: '3.9'
+
+volumes:
+  pgdata:
+networks:
+  catalog-api-network:
+    driver: bridge
+
+services:
+  catalog-api:
+    image: gpmrks/catalog-api:latest
+    container_name: catalog-api
+    labels:
+      description: "Catalog API"
+      service: "CatalogAPI"
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgresDB
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__CatalogApiContext=Server=postgresDB;Port=5432;User ID=postgres;Password=postgres;Database=Catalog_db;IntegratedSecurity=true;Pooling=true;
+    command: [ "dotnet", "ef", "database", "update" ]
+    networks:
+      - catalog-api-network
+  
+  postgresDB:
+    image: postgres:latest
+    container_name: postgresDB
+    labels:
+      description: "PostgreSQL Database"
+      service: "postgresql"
+    environment:
+      POSTGRES_DB: Catalog_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      timeout: 360s
+      retries: 5
+    command: [ "postgres" ]
+    networks: 
+      - catalog-api-network

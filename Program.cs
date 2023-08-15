@@ -5,6 +5,7 @@ using CatalogAPI.Services;
 using CatalogAPI.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Version = "v5.0.0",
+        Version = "v5.0.1",
         Title = "Catalog API",
         Description = "Catalog API for Products and Categories of Products - ASP.NET Core",
         TermsOfService = new Uri("https://example.com/terms"),
@@ -41,8 +42,10 @@ builder.Services.AddSwaggerGen(options =>
     // options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+var connectionString = builder.Configuration.GetConnectionString("CatalogApiContext");
+
 builder.Services.AddDbContext<CatalogApiContext>(optionsAction =>
-    optionsAction.UseNpgsql(builder.Configuration.GetConnectionString("ProductsApiContext"),
+    optionsAction.UseNpgsql(connectionString,
         npgsqlDbContextOptionsBuilder => npgsqlDbContextOptionsBuilder.MigrationsAssembly("CatalogAPI")));
 
 var app = builder.Build();
@@ -51,8 +54,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(endpoint =>
+    {
+        endpoint.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API");
+        endpoint.RoutePrefix = "";
+        endpoint.DocExpansion(DocExpansion.List);
+    });
 }
+
+DatabaseManagementService.MigrationInitialization(app);
 
 app.UseHttpsRedirection();
 

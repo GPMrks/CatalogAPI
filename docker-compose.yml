@@ -22,7 +22,6 @@ services:
       dockerfile: Dockerfile
     environment:
       - ConnectionStrings__CatalogApiContext=Server=postgresDB;Port=5432;User ID=postgres;Password=postgres;Database=Catalog_db;IntegratedSecurity=true;Pooling=true;
-    command: [ "dotnet", "ef", "database", "update" ]
     networks:
       - catalog-api-network
   

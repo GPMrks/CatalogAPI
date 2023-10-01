@@ -11,17 +11,21 @@ namespace CatalogAPI.Controllers;
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoriesService _categoriesService;
+    private readonly ILogger _logger;
 
-    public CategoriesController(ICategoriesService categoriesService)
+    public CategoriesController(ICategoriesService categoriesService, ILogger<CategoriesController> logger)
     {
         _categoriesService = categoriesService;
+        _logger = logger;
     }
-    
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<CategoryDTO>>> GetAllCategoriesAsync()
     {
+        _logger.LogInformation("******** GET api/categories ********");
+        
         var categoriesDto = await _categoriesService.FindAllCategoriesAsync();
 
         if (categoriesDto is null) return NotFound();
@@ -34,6 +38,8 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<CategoryDTO>>> GetAllCategoriesProductsAsync()
     {
+        _logger.LogInformation("******** GET api/categories/products ********");
+        
         var categoriesAndProductsDto = await _categoriesService.FindProductsInCategories();
 
         if (categoriesAndProductsDto is null) return NotFound();
@@ -46,6 +52,8 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoryDTO>> GetCategoryByIdAsync(int id)
     {
+        _logger.LogInformation("******** GET api/categories/{Id} ********", id);
+        
         try
         {
             CategoryDTO categoryDto = await _categoriesService.FindCategoryByIdAsync(id);
@@ -63,6 +71,8 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CategoryDTO>> CreateCategoryAsync(CategoryForm categoryForm)
     {
+        _logger.LogInformation($"******** POST api/categories ********");
+        
         if (categoryForm is null) return BadRequest();
         CategoryDTO categoryDto = await _categoriesService.CreateCategoryAsync(categoryForm);
         return new CreatedAtRouteResult("GetCategoryById", new { id = categoryDto.Id }, categoryDto);
@@ -73,6 +83,8 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CategoryDTO>> UpdateCategoryAsync(int id, CategoryForm categoryForm)
     {
+        _logger.LogInformation("******** PUT api/categories/{Id} ********", id);
+        
         try
         {
             CategoryDTO categoryDto = await _categoriesService.UpdateCategoryAsync(id, categoryForm);
@@ -95,6 +107,8 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CategoryDTO>> UpdateCategoryPatchAsync(int id, CategoryFormPatch categoryFormPatch)
     {
+        _logger.LogInformation("******** PATCH api/categories/{Id} ********", id);
+        
         try
         {
             CategoryDTO categoryDto = await _categoriesService.UpdateCategoryPatchAsync(id, categoryFormPatch);
@@ -115,6 +129,8 @@ public class CategoriesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteCategoryAsync(int id)
     {
+        _logger.LogInformation("******** DELETE api/categories/{Id} ********", id);
+        
         try
         {
             await _categoriesService.DeleteCategoryAsync(id);

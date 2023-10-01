@@ -1,6 +1,7 @@
-using System.Reflection;
 using System.Text.Json.Serialization;
 using CatalogAPI.Context;
+using CatalogAPI.Filters;
+using CatalogAPI.Logging;
 using CatalogAPI.Services;
 using CatalogAPI.Services.Impl;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+builder.Services.AddScoped<ApiLoggingFilter>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -47,6 +49,12 @@ var connectionString = builder.Configuration.GetConnectionString("CatalogApiCont
 builder.Services.AddDbContext<CatalogApiContext>(optionsAction =>
     optionsAction.UseNpgsql(connectionString,
         npgsqlDbContextOptionsBuilder => npgsqlDbContextOptionsBuilder.MigrationsAssembly("CatalogAPI")));
+
+// builder.Logging.ClearProviders();
+builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration
+{
+    LogLevel = LogLevel.Information
+}));
 
 var app = builder.Build();
 

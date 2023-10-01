@@ -84,7 +84,7 @@ public class ProductsService : IProductsService
         await CheckIfProductExists(id);
         await _catalogApiContext.Products.Where(product => product.Id == id).ExecuteDeleteAsync();
     }
-
+ 
     private async Task<Product> CheckIfProductExists(int id)
     {
         var product = await _catalogApiContext.Products.FirstOrDefaultAsync(p => p.Id == id);

@@ -1,5 +1,6 @@
 using CatalogAPI.DTOs;
 using CatalogAPI.Exceptions;
+using CatalogAPI.Filters;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(ApiLoggingFilter))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<ProductDTO>>> GetAllProductsAsync()

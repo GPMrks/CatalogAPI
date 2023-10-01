@@ -5,15 +5,17 @@ namespace CatalogAPI.Services;
 
 public interface IProductsService
 {
-    Task<List<ProductDTO>> FindAllProductsAsync();
+    List<ProductDTO> FindAllProducts();
 
-    Task<ProductDTO> FindProductByIdAsync(int id);
-
-    Task<ProductDTO> CreateProductAsync(ProductForm productForm);
-
-    Task<ProductDTO> UpdateProductAsync(int id, ProductForm productForm);
+    List<ProductDTO> FindProductsSortedByPrice();
     
-    Task<ProductDTO> UpdateProductPatchAsync(int id, ProductFormPatch productFormPatch);
+    ProductDTO FindProductById(int id);
 
-    Task DeleteProductAsync(int id);
+    ProductDTO CreateProduct(ProductForm productForm);
+
+    ProductDTO UpdateProduct(int id, ProductForm productForm);
+    
+    ProductDTO UpdateProductPatch(int id, ProductFormPatch productFormPatch);
+
+    void DeleteProduct(int id);
 }

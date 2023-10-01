@@ -2,6 +2,8 @@ using System.Text.Json.Serialization;
 using CatalogAPI.Context;
 using CatalogAPI.Filters;
 using CatalogAPI.Logging;
+using CatalogAPI.Repositories;
+using CatalogAPI.Repositories.Impl;
 using CatalogAPI.Services;
 using CatalogAPI.Services.Impl;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,7 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<ApiLoggingFilter>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

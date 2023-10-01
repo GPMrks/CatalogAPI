@@ -22,9 +22,22 @@ public class ProductsController : ControllerBase
     [ServiceFilter(typeof(ApiLoggingFilter))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<ProductDTO>>> GetAllProductsAsync()
+    public ActionResult<List<ProductDTO>> GetAllProducts()
     {
-        var productsDtos = await _productsService.FindAllProductsAsync();
+        var productsDtos = _productsService.FindAllProducts();
+
+        if (productsDtos is null) return NotFound();
+
+        return Ok(productsDtos);
+    }
+    
+    [HttpGet("sorted-by-price")]
+    [ServiceFilter(typeof(ApiLoggingFilter))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductDTO>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<ProductDTO>> GetAllProductsSortedByPrice()
+    {
+        var productsDtos = _productsService.FindProductsSortedByPrice();
 
         if (productsDtos is null) return NotFound();
 
@@ -34,11 +47,11 @@ public class ProductsController : ControllerBase
     [HttpGet("{id:int}", Name = "GetProductById")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(int id)
+    public ActionResult<ProductDTO> GetProductById(int id)
     {
         try
         {
-            var productDto = await _productsService.FindProductByIdAsync(id);
+            var productDto = _productsService.FindProductById(id);
             return Ok(productDto);
         }
         catch (ProductNotFoundException)
@@ -51,21 +64,21 @@ public class ProductsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProductDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductDTO>> CreateProductAsync(ProductForm productForm)
+    public ActionResult<ProductDTO> CreateProduct(ProductForm productForm)
     {
         if (productForm is null) return BadRequest();
-        var productDto = await _productsService.CreateProductAsync(productForm);
+        var productDto = _productsService.CreateProduct(productForm);
         return new CreatedAtRouteResult("GetProductById", new { id = productDto.Id }, productDto);
     }
 
     [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductDTO>> UpdateProductAsync(int id, ProductForm productForm)
+    public ActionResult<ProductDTO> UpdateProduct(int id, ProductForm productForm)
     {
         try
         {
-            var productDto = await _productsService.UpdateProductAsync(id, productForm);
+            var productDto = _productsService.UpdateProduct(id, productForm);
             return Ok(productDto);
         }
         catch (ProductNotFoundException)
@@ -83,11 +96,11 @@ public class ProductsController : ControllerBase
     [HttpPatch("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductDTO>> UpdateProductPatchAsync(int id, ProductFormPatch productFormPatch)
+    public ActionResult<ProductDTO> UpdateProductPatch(int id, ProductFormPatch productFormPatch)
     {
         try
         {
-            var productDto = await _productsService.UpdateProductPatchAsync(id, productFormPatch);
+            var productDto = _productsService.UpdateProductPatch(id, productFormPatch);
             return Ok(productDto);
         }
         catch (ProductNotFoundException)
@@ -105,11 +118,11 @@ public class ProductsController : ControllerBase
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DeleteProductAsync(int id)
+    public ActionResult DeleteProduct(int id)
     {
         try
         {
-            await _productsService.DeleteProductAsync(id);
+            _productsService.DeleteProduct(id);
             return NoContent();
         }
         catch (ProductNotFoundException)

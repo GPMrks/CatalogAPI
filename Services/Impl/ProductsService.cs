@@ -1,45 +1,51 @@
-using CatalogAPI.Context;
 using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
+using CatalogAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Services.Impl;
 
 public class ProductsService : IProductsService
 {
-    private readonly CatalogApiContext _catalogApiContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ProductsService(CatalogApiContext catalogApiContext)
+    public ProductsService(IUnitOfWork unitOfWork)
     {
-        _catalogApiContext = catalogApiContext;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<ProductDTO>> FindAllProductsAsync()
+    public List<ProductDTO> FindAllProducts()
     {
-        var products = await _catalogApiContext.Products.ToListAsync();
+        var products = _unitOfWork.ProductRepository.FindAll().ToList();
         return products.Select(product => new ProductDTO(product)).ToList();
     }
 
-    public async Task<ProductDTO> FindProductByIdAsync(int id)
+    public ProductDTO FindProductById(int id)
     {
-        var product = await CheckIfProductExists(id);
+        var product = CheckIfProductExists(id);
         return new ProductDTO(product);
     }
 
-    public async Task<ProductDTO> CreateProductAsync(ProductForm productForm)
+    public List<ProductDTO> FindProductsSortedByPrice()
+    {
+        var products = _unitOfWork.ProductRepository.FindProductsSortedByPrice().ToList();
+        return products.Select(product => new ProductDTO(product)).ToList();
+    }
+
+    public ProductDTO CreateProduct(ProductForm productForm)
     {
         Product product = new Product(productForm.Name, productForm.Description, productForm.Price, productForm.ImageUrl, productForm.Stock, productForm.RegisterDate, productForm.CategoryId);
-        _catalogApiContext.Products.Add(product);
-        await _catalogApiContext.SaveChangesAsync();
+        _unitOfWork.ProductRepository.Add(product);
+        _unitOfWork.Commit();
         return new ProductDTO(product);
     }
 
-    public async Task<ProductDTO> UpdateProductAsync(int id, ProductForm productForm)
+    public ProductDTO UpdateProduct(int id, ProductForm productForm)
     {
         try
         {
-            var product = await CheckIfProductExists(id);
+            var product = CheckIfProductExists(id);
             product.Name = productForm.Name;
             product.Description = productForm.Description;
             product.Price = productForm.Price;
@@ -47,8 +53,8 @@ public class ProductsService : IProductsService
             product.Stock = productForm.Stock;
             product.RegisterDate = productForm.RegisterDate;
             product.CategoryId = productForm.CategoryId;
-            _catalogApiContext.Entry(product).State = EntityState.Modified;
-            await _catalogApiContext.SaveChangesAsync();
+            _unitOfWork.ProductRepository.Update(product);
+            _unitOfWork.Commit();
             return new ProductDTO(product);
         }
         catch (DbUpdateException)
@@ -57,11 +63,11 @@ public class ProductsService : IProductsService
         }
     }
 
-    public async Task<ProductDTO> UpdateProductPatchAsync(int id, ProductFormPatch productFormPatch)
+    public ProductDTO UpdateProductPatch(int id, ProductFormPatch productFormPatch)
     {
         try
         {
-            var product = await CheckIfProductExists(id);
+            var product = CheckIfProductExists(id);
             product.Name = productFormPatch.Name ?? product.Name;
             product.Description = productFormPatch.Description ?? product.Description;
             product.Price = (productFormPatch.Price == 0) ? product.Price : productFormPatch.Price;
@@ -69,8 +75,8 @@ public class ProductsService : IProductsService
             product.Stock = (productFormPatch.Stock == 0) ? product.Stock : productFormPatch.Stock;
             product.RegisterDate = (productFormPatch.RegisterDate == DateTime.MinValue) ? product.RegisterDate : productFormPatch.RegisterDate;
             product.CategoryId = (productFormPatch.CategoryId == 0) ? product.CategoryId : productFormPatch.CategoryId;
-            _catalogApiContext.Entry(product).State = EntityState.Modified;
-            await _catalogApiContext.SaveChangesAsync();
+            _unitOfWork.ProductRepository.Update(product);
+            _unitOfWork.Commit();
             return new ProductDTO(product);
         }
         catch (DbUpdateException)
@@ -79,15 +85,16 @@ public class ProductsService : IProductsService
         }
     }
 
-    public async Task DeleteProductAsync(int id)
+    public void DeleteProduct(int id)
     {
-        await CheckIfProductExists(id);
-        await _catalogApiContext.Products.Where(product => product.Id == id).ExecuteDeleteAsync();
+        var product = CheckIfProductExists(id);
+        _unitOfWork.ProductRepository.Delete(product);
+        _unitOfWork.Commit();
     }
  
-    private async Task<Product> CheckIfProductExists(int id)
+    private Product CheckIfProductExists(int id)
     {
-        var product = await _catalogApiContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+        var product = _unitOfWork.ProductRepository.FindById(p => p.Id == id);
 
         if (product is null) throw new ProductNotFoundException("Product not found with ID: " + id);
 

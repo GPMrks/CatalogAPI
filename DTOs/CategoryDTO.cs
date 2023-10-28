@@ -10,7 +10,7 @@ public class CategoryDTO
     public string? ImageUrl { get; set; }
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ICollection<Product>? Products { get; set; }
+    public ICollection<ProductDTO>? ProductDtos { get; set; }
 
     public CategoryDTO()
     {
@@ -21,6 +21,6 @@ public class CategoryDTO
         Id = category.Id;
         Name = category.Name;
         ImageUrl = category.ImageUrl;
-        Products = category.Products;
+        ProductDtos = category.Products.Select(product => new ProductDTO(product)).ToList();
     }
 }

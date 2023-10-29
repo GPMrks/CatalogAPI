@@ -1,21 +1,22 @@
 using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
+using CatalogAPI.Pagination;
 
 namespace CatalogAPI.Services;
 
 public interface ICategoriesService
 {
-    Task<List<CategoryDTO>> FindAllCategoriesAsync();
+    List<CategoryDTO> GetAllCategories(CategoriesParameters categoriesParameters);
 
-    Task<List<CategoryDTO>> FindProductsInCategories();
+    List<CategoryDTO> GetProductsInCategories();
     
-    Task<CategoryDTO> FindCategoryByIdAsync(int id);
+    CategoryDTO GetCategoryById(int id);
 
-    Task<CategoryDTO> CreateCategoryAsync(CategoryForm categoryForm);
+    CategoryDTO CreateCategory(CategoryForm categoryForm);
 
-    Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryForm categoryForm);
+    CategoryDTO UpdateCategory(int id, CategoryForm categoryForm);
     
-    Task<CategoryDTO> UpdateCategoryPatchAsync(int id, CategoryFormPatch categoryFormPatch);
+    CategoryDTO UpdateCategoryPatch(int id, CategoryFormPatch categoryFormPatch);
 
-    Task DeleteCategoryAsync(int id);
+    void DeleteCategory(int id);
 }

@@ -1,15 +1,16 @@
 using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
+using CatalogAPI.Pagination;
 
 namespace CatalogAPI.Services;
 
 public interface IProductsService
 {
-    List<ProductDTO> FindAllProducts();
+    List<ProductDTO> GetAllProducts(ProductsParameters productsParameters);
 
-    List<ProductDTO> FindProductsSortedByPrice();
+    List<ProductDTO> GetProductsSortedByPrice();
     
-    ProductDTO FindProductById(int id);
+    ProductDTO GetProductById(int id);
 
     ProductDTO CreateProduct(ProductForm productForm);
 

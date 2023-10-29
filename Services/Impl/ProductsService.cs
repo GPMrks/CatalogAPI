@@ -1,6 +1,7 @@
 using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
+using CatalogAPI.Pagination;
 using CatalogAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,21 +16,22 @@ public class ProductsService : IProductsService
         _unitOfWork = unitOfWork;
     }
 
-    public List<ProductDTO> FindAllProducts()
+    public List<ProductDTO> GetAllProducts(ProductsParameters productsParameters)
     {
-        var products = _unitOfWork.ProductRepository.FindAll().ToList();
+        var products = _unitOfWork.ProductRepository.GetProducts(productsParameters);
+        
         return products.Select(product => new ProductDTO(product)).ToList();
     }
 
-    public ProductDTO FindProductById(int id)
+    public ProductDTO GetProductById(int id)
     {
         var product = CheckIfProductExists(id);
         return new ProductDTO(product);
     }
 
-    public List<ProductDTO> FindProductsSortedByPrice()
+    public List<ProductDTO> GetProductsSortedByPrice()
     {
-        var products = _unitOfWork.ProductRepository.FindProductsSortedByPrice().ToList();
+        var products = _unitOfWork.ProductRepository.GetProductsSortedByPrice().ToList();
         return products.Select(product => new ProductDTO(product)).ToList();
     }
 

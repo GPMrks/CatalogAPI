@@ -35,7 +35,7 @@ public class ProductsService : IProductsService
 
     public ProductDTO CreateProduct(ProductForm productForm)
     {
-        Product product = new Product(productForm.Name, productForm.Description, productForm.Price, productForm.ImageUrl, productForm.Stock, productForm.RegisterDate, productForm.CategoryId);
+        Product product = new Product(productForm);
         _unitOfWork.ProductRepository.Add(product);
         _unitOfWork.Commit();
         return new ProductDTO(product);
@@ -51,7 +51,6 @@ public class ProductsService : IProductsService
             product.Price = productForm.Price;
             product.ImageUrl = productForm.ImageUrl;
             product.Stock = productForm.Stock;
-            product.RegisterDate = productForm.RegisterDate;
             product.CategoryId = productForm.CategoryId;
             _unitOfWork.ProductRepository.Update(product);
             _unitOfWork.Commit();

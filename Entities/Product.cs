@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using CatalogAPI.DTOs;
 
 namespace CatalogAPI.Entities;
 
@@ -27,14 +28,14 @@ public class Product
     {
     }
 
-    public Product(string? name, string? description, decimal price, string? imageUrl, float stock, DateTime registerDate, int categoryId)
+    public Product(ProductForm productForm)
     {
-        Name = name;
-        Description = description;
-        Price = price;
-        ImageUrl = imageUrl;
-        Stock = stock;
-        RegisterDate = registerDate;
-        CategoryId = categoryId;
+        Name = productForm.Name;
+        Description = productForm.Description;
+        Price = productForm.Price;
+        ImageUrl = productForm.ImageUrl;
+        Stock = productForm.Stock;
+        RegisterDate = DateTime.Now.ToUniversalTime();;
+        CategoryId = productForm.CategoryId;
     }
 }

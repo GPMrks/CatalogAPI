@@ -24,10 +24,6 @@ public class ProductForm
     [Range(1, float.MaxValue, ErrorMessage = "Stock is required!")]
     public float Stock { get; set; }
     
-    [Required(ErrorMessage = "Register date is required!")]
-    [DataType(DataType.DateTime)]
-    public DateTime RegisterDate { get; set; } = DateTime.Now.ToUniversalTime();
-    
     [Required]
     [Range(1, int.MaxValue, ErrorMessage = "CategoryId is required!")]
     public int CategoryId { get; set; }

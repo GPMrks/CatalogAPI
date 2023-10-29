@@ -1,6 +1,7 @@
 using CatalogAPI.DTOs;
 using CatalogAPI.Exceptions;
 using CatalogAPI.Filters;
+using CatalogAPI.Pagination;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,19 +13,24 @@ namespace CatalogAPI.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly IProductsService _productsService;
+    private readonly ILogger _logger;
 
-    public ProductsController(IProductsService productsService)
+    public ProductsController(IProductsService productsService, ILogger<CategoriesController> logger)
     {
         _productsService = productsService;
+        _logger = logger;
+
     }
 
     [HttpGet]
     [ServiceFilter(typeof(ApiLoggingFilter))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<List<ProductDTO>> GetAllProducts()
+    public ActionResult<List<ProductDTO>> GetAllProducts([FromQuery] ProductsParameters productsParameters)
     {
-        var productsDtos = _productsService.FindAllProducts();
+        _logger.LogInformation("******** GET api/products ********");
+        
+        var productsDtos = _productsService.GetAllProducts(productsParameters);
 
         if (productsDtos is null) return NotFound();
 
@@ -37,7 +43,9 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<ProductDTO>> GetAllProductsSortedByPrice()
     {
-        var productsDtos = _productsService.FindProductsSortedByPrice();
+        _logger.LogInformation("******** GET api/products/sorted-by-price ********");
+        
+        var productsDtos = _productsService.GetProductsSortedByPrice();
 
         if (productsDtos is null) return NotFound();
 
@@ -49,9 +57,13 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<ProductDTO> GetProductById(int id)
     {
+        
+        _logger.LogInformation("******** GET api/products/{id} ********");
+            
         try
         {
-            var productDto = _productsService.FindProductById(id);
+            
+            var productDto = _productsService.GetProductById(id);
             return Ok(productDto);
         }
         catch (ProductNotFoundException)
@@ -66,6 +78,8 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<ProductDTO> CreateProduct(ProductForm productForm)
     {
+        _logger.LogInformation("******** POST api/products ********");
+        
         if (productForm is null) return BadRequest();
         var productDto = _productsService.CreateProduct(productForm);
         return new CreatedAtRouteResult("GetProductById", new { id = productDto.Id }, productDto);
@@ -76,6 +90,9 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<ProductDTO> UpdateProduct(int id, ProductForm productForm)
     {
+        
+        _logger.LogInformation("******** PUT api/products/{id} ********");
+        
         try
         {
             var productDto = _productsService.UpdateProduct(id, productForm);
@@ -98,6 +115,8 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<ProductDTO> UpdateProductPatch(int id, ProductFormPatch productFormPatch)
     {
+        _logger.LogInformation("******** PATCH api/products/{id} ********");
+        
         try
         {
             var productDto = _productsService.UpdateProductPatch(id, productFormPatch);
@@ -120,6 +139,8 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult DeleteProduct(int id)
     {
+        _logger.LogInformation("******** DELETE api/products/{id} ********");
+        
         try
         {
             _productsService.DeleteProduct(id);

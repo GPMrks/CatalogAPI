@@ -1,5 +1,6 @@
 using CatalogAPI.DTOs;
 using CatalogAPI.Exceptions;
+using CatalogAPI.Pagination;
 using CatalogAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +23,11 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<CategoryDTO>>> GetAllCategoriesAsync()
+    public ActionResult<List<CategoryDTO>> GetAllCategories([FromQuery] CategoriesParameters categoriesParameters)
     {
         _logger.LogInformation("******** GET api/categories ********");
         
-        var categoriesDto = await _categoriesService.FindAllCategoriesAsync();
+        var categoriesDto = _categoriesService.GetAllCategories(categoriesParameters);
 
         if (categoriesDto is null) return NotFound();
 
@@ -36,11 +37,11 @@ public class CategoriesController : ControllerBase
     [HttpGet("Products")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<CategoryDTO>>> GetAllCategoriesProductsAsync()
+    public ActionResult<List<CategoryDTO>> GetAllCategoriesProducts()
     {
         _logger.LogInformation("******** GET api/categories/products ********");
         
-        var categoriesAndProductsDto = await _categoriesService.FindProductsInCategories();
+        var categoriesAndProductsDto = _categoriesService.GetProductsInCategories();
 
         if (categoriesAndProductsDto is null) return NotFound();
 
@@ -50,13 +51,13 @@ public class CategoriesController : ControllerBase
     [HttpGet("{id:int}", Name = "GetCategoryById")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<CategoryDTO>> GetCategoryByIdAsync(int id)
+    public ActionResult<CategoryDTO> GetCategoryById(int id)
     {
         _logger.LogInformation("******** GET api/categories/{Id} ********", id);
         
         try
         {
-            CategoryDTO categoryDto = await _categoriesService.FindCategoryByIdAsync(id);
+            CategoryDTO categoryDto = _categoriesService.GetCategoryById(id);
             return Ok(categoryDto);
         }
         catch (CategoryNotFoundException)
@@ -69,25 +70,25 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CategoryDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CategoryDTO>> CreateCategoryAsync(CategoryForm categoryForm)
+    public ActionResult<CategoryDTO> CreateCategory(CategoryForm categoryForm)
     {
         _logger.LogInformation($"******** POST api/categories ********");
         
         if (categoryForm is null) return BadRequest();
-        CategoryDTO categoryDto = await _categoriesService.CreateCategoryAsync(categoryForm);
+        CategoryDTO categoryDto = _categoriesService.CreateCategory(categoryForm);
         return new CreatedAtRouteResult("GetCategoryById", new { id = categoryDto.Id }, categoryDto);
     }
 
     [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CategoryDTO>> UpdateCategoryAsync(int id, CategoryForm categoryForm)
+    public ActionResult<CategoryDTO> UpdateCategory(int id, CategoryForm categoryForm)
     {
         _logger.LogInformation("******** PUT api/categories/{Id} ********", id);
         
         try
         {
-            CategoryDTO categoryDto = await _categoriesService.UpdateCategoryAsync(id, categoryForm);
+            CategoryDTO categoryDto = _categoriesService.UpdateCategory(id, categoryForm);
             return Ok(categoryDto);
         }
         catch (CategoryNotFoundException)
@@ -105,13 +106,13 @@ public class CategoriesController : ControllerBase
     [HttpPatch("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CategoryDTO>> UpdateCategoryPatchAsync(int id, CategoryFormPatch categoryFormPatch)
+    public ActionResult<CategoryDTO> UpdateCategoryPatch(int id, CategoryFormPatch categoryFormPatch)
     {
         _logger.LogInformation("******** PATCH api/categories/{Id} ********", id);
         
         try
         {
-            CategoryDTO categoryDto = await _categoriesService.UpdateCategoryPatchAsync(id, categoryFormPatch);
+            CategoryDTO categoryDto = _categoriesService.UpdateCategoryPatch(id, categoryFormPatch);
             return Ok(categoryDto);
         }
         catch (CategoryNotFoundException)
@@ -127,13 +128,13 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> DeleteCategoryAsync(int id)
+    public ActionResult DeleteCategory(int id)
     {
         _logger.LogInformation("******** DELETE api/categories/{Id} ********", id);
         
         try
         {
-            await _categoriesService.DeleteCategoryAsync(id);
+            _categoriesService.DeleteCategory(id);
             return NoContent();
         }
         catch (CategoryNotFoundException)

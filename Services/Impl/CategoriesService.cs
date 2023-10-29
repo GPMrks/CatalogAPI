@@ -2,39 +2,38 @@ using CatalogAPI.Context;
 using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
 using CatalogAPI.Exceptions;
+using CatalogAPI.Pagination;
+using CatalogAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Services.Impl;
 
 public class CategoriesService : ICategoriesService
 {
-    private readonly CatalogApiContext _catalogApiContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CategoriesService(CatalogApiContext catalogApiContext)
+    public CategoriesService(IUnitOfWork unitOfWork)
     {
-        _catalogApiContext = catalogApiContext;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<CategoryDTO>> FindAllCategoriesAsync()
+    public List<CategoryDTO> GetAllCategories(CategoriesParameters categoriesParameters)
     {
-        var categories = await _catalogApiContext.Categories.ToListAsync();
-        return categories.Select(category => new CategoryDTO
-        {
-            Id = category.Id,
-            Name = category.Name,
-            ImageUrl = category.ImageUrl
-        }).ToList();
+        var categories = _unitOfWork.CategoryRepository.GetCategories(categoriesParameters);
+
+        return categories.Select(category => new CategoryDTO(category)).ToList();
     }
 
-    public async Task<List<CategoryDTO>> FindProductsInCategories()
+    public List<CategoryDTO> GetProductsInCategories()
     {
-        var categoriesAndProducts = await _catalogApiContext.Categories.Include(p => p.Products).ToListAsync();
+        var categoriesAndProducts = _unitOfWork.CategoryRepository.GetCategoryProducts();
+        
         return categoriesAndProducts.Select(category => new CategoryDTO(category)).ToList();
     }
 
-    public async Task<CategoryDTO> FindCategoryByIdAsync(int id)
+    public CategoryDTO GetCategoryById(int id)
     {
-        Category category = await CheckIfCategoryExists(id);
+        Category category = CheckIfCategoryExists(id);
         return new CategoryDTO
         {
             Id = category.Id,
@@ -43,23 +42,23 @@ public class CategoriesService : ICategoriesService
         };
     }
 
-    public async Task<CategoryDTO> CreateCategoryAsync(CategoryForm categoryForm)
+    public CategoryDTO CreateCategory(CategoryForm categoryForm)
     {
         Category category = new Category(categoryForm.Name, categoryForm.ImageUrl);
-        _catalogApiContext.Categories.Add(category);
-        await _catalogApiContext.SaveChangesAsync();
+        _unitOfWork.CategoryRepository.Add(category);
+        _unitOfWork.Commit();
         return new CategoryDTO(category);
     }
 
-    public async Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryForm categoryForm)
+    public CategoryDTO UpdateCategory(int id, CategoryForm categoryForm)
     {
         try
         {
-            Category category = await CheckIfCategoryExists(id);
+            Category category = CheckIfCategoryExists(id);
             category.Name = categoryForm.Name;
             category.ImageUrl = categoryForm.ImageUrl;
-            _catalogApiContext.Entry(category).State = EntityState.Modified;
-            await _catalogApiContext.SaveChangesAsync();
+            _unitOfWork.CategoryRepository.Update(category);
+            _unitOfWork.Commit();
             return new CategoryDTO(category);
         }
         catch (DbUpdateException)
@@ -68,15 +67,15 @@ public class CategoriesService : ICategoriesService
         }
     }
 
-    public async Task<CategoryDTO> UpdateCategoryPatchAsync(int id, CategoryFormPatch categoryFormPatch)
+    public CategoryDTO UpdateCategoryPatch(int id, CategoryFormPatch categoryFormPatch)
     {
         try
         {
-            Category category = await CheckIfCategoryExists(id);
+            Category category = CheckIfCategoryExists(id);
             category.Name = categoryFormPatch.Name ?? category.Name;
             category.ImageUrl = categoryFormPatch.ImageUrl ?? category.ImageUrl;
-            _catalogApiContext.Entry(category).State = EntityState.Modified;
-            await _catalogApiContext.SaveChangesAsync();
+            _unitOfWork.CategoryRepository.Update(category);
+            _unitOfWork.Commit();
             return new CategoryDTO(category);
         }
         catch (DbUpdateException)
@@ -85,15 +84,16 @@ public class CategoriesService : ICategoriesService
         }
     }
 
-    public async Task DeleteCategoryAsync(int id)
+    public void DeleteCategory(int id)
     {
-        await CheckIfCategoryExists(id);
-        await _catalogApiContext.Categories.Where(category => category.Id == id).ExecuteDeleteAsync();
+        var category = CheckIfCategoryExists(id);
+        _unitOfWork.CategoryRepository.Delete(category);
+        _unitOfWork.Commit();
     }
 
-    private async Task<Category> CheckIfCategoryExists(int id)
+    private Category CheckIfCategoryExists(int id)
     {
-        var category = await _catalogApiContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        var category = _unitOfWork.CategoryRepository.FindById(p => p.Id == id);
 
         if (category is null) throw new CategoryNotFoundException("Category not found with ID: " + id);
 
